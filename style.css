@@ -122,3 +122,94 @@ h1 { font-size: clamp(3.1rem, 9vw, 8.5rem); line-height: .86; margin: 1rem 0; le
   .nav { display: none; }
   .lens-card { min-height: 22rem; }
 }
+
+.light-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 1;
+  mix-blend-mode: screen;
+}
+
+.light-particles span {
+  position: absolute;
+  left: var(--left);
+  bottom: -4rem;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 999px;
+  background: rgba(216, 170, 98, 0.42);
+  box-shadow: 0 0 2rem rgba(230, 138, 155, 0.45);
+  animation: float-light 10s linear infinite;
+  animation-delay: var(--delay);
+}
+
+.lens-card {
+  position: relative;
+  overflow: hidden;
+  transform: perspective(900px) translateY(var(--reveal-y, 0)) scale(var(--reveal-scale, 1)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+.lens-card::before {
+  content: "";
+  position: absolute;
+  inset: -35%;
+  background: radial-gradient(circle at var(--shine-x, 50%) var(--shine-y, 50%), rgba(255, 255, 255, 0.34), transparent 28%);
+  opacity: .8;
+  transition: opacity .2s ease;
+}
+
+.lens-card::after {
+  content: "";
+  position: absolute;
+  inset: 1rem;
+  border-radius: 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transform: translateZ(45px);
+}
+
+.lens { position: relative; z-index: 1; transform: translateZ(70px); }
+
+.button, .card, .shot {
+  transform: translate3d(var(--magnet-x, 0), calc(var(--reveal-y, 0px) + var(--magnet-y, 0px)), 0) scale(var(--reveal-scale, 1));
+  transition: transform .22s ease, border-color .2s ease, box-shadow .2s ease;
+}
+
+.button:hover, .card:hover, .shot:hover {
+  box-shadow: 0 1.2rem 4rem rgba(216, 170, 98, 0.18);
+}
+
+[data-reveal] {
+  --reveal-y: 2rem;
+  --reveal-scale: .98;
+  opacity: 0;
+  transition: opacity .7s ease, transform .7s ease;
+}
+
+[data-reveal].is-visible {
+  --reveal-y: 0px;
+  --reveal-scale: 1;
+  opacity: 1;
+}
+
+@keyframes float-light {
+  0% { transform: translate3d(0, 0, 0) scale(.6); opacity: 0; }
+  15% { opacity: .85; }
+  100% { transform: translate3d(4rem, -110vh, 0) scale(1.35); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: .01ms !important;
+  }
+
+  [data-reveal] {
+    --reveal-y: 0px;
+    --reveal-scale: 1;
+    opacity: 1;
+  }
+}

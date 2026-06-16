@@ -8,6 +8,7 @@
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 <div class="cursor-glow" aria-hidden="true"></div>
+<div class="light-particles" aria-hidden="true"></div>
 <header class="header site-shell">
   <a class="logo" href="<?php echo esc_url(home_url('/')); ?>">Stüdyo <span>22</span></a>
   <nav class="nav" aria-label="Ana menü">
